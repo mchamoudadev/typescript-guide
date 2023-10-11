@@ -94,11 +94,11 @@ console.log(createGreeting('Bashka', 50))
 
 // objects and type aliases
 
-type User = { name: string, age: number, description?: string }
+// type User = { name: string, age: number, description?: string }
 
-let user: User = { name: "hamuuda", age: 50 }
-let user2: User = { name: "hamuuda", age: 50 }
-let user3: User = { name: "hamuuda", age: 50 }
+// let user: User = { name: "hamuuda", age: 50 }
+// let user2: User = { name: "hamuuda", age: 50 }
+// let user3: User = { name: "hamuuda", age: 50 }
 
 
 // Union Types
@@ -144,3 +144,128 @@ let unknownVar: unknown = "I am string";
 let stringVar: string = (unknownVar as string).toUpperCase()
 
 
+// interface
+
+interface User {
+    name: string;
+    age: number;
+
+}
+
+
+interface Admin extends User {
+    permissions: string[];
+}
+
+const bob: Admin = { name: 'Bob', age: 35, permissions: ['read', 'write'] };
+
+
+// optional properties
+
+interface Product {
+    id: number;
+    name: string;
+    description?: string;
+}
+
+const phone: Product = { id: 1, name: 'Iphone 15', description: 'Cool phone' }
+
+const computer: Product = { id: 2, name: 'Computer' }
+
+// read only properties
+
+interface Configuration {
+    readonly apiUrl: string;
+    timeout: number;
+}
+
+const config: Configuration = {
+    apiUrl: 'https://enum.google.com/',
+    timeout: 5000
+}
+
+
+console.log(config.timeout)
+
+console.log("after")
+
+// config.apiUrl = "https://something.google"
+
+config.timeout = 6000
+
+console.log(config.timeout)
+
+
+interface ApiResponse {
+    data: { id: number, name: string, }
+    status: string;
+}
+
+// fetch(config.apiUrl)
+//     .then((res) => res.json())
+//     .then((data: ApiResponse) => data.status === "Ok")
+
+
+//### Generics
+
+// examples without generics
+
+// function contain(arr: any[], item: any): boolean {
+//     return arr.includes(item)
+// }
+
+// console.log(contain([1, 2, 3], "hamuuda"))
+
+function containNumber(arr: number[], item: number): boolean {
+    return arr.includes(item)
+}
+function containString(arr: string[], item: string): boolean {
+    return arr.includes(item)
+}
+function containBoolean(arr: boolean[], item: boolean): boolean {
+    return arr.includes(item)
+}
+
+console.log(containString(['a', 'b', 'c'], "cc"))
+
+
+// with generics example
+
+function contains<T>(arr: T[], item: T): boolean {
+    return arr.includes(item)
+}
+
+let stringItems: string[] = ["green", "red", "yellow"]
+let numberItems: number[] = [1, 2, 3, 4]
+
+contains<number>(numberItems, 3)
+contains<string>(stringItems, "green")
+
+
+// with interfaces
+
+interface NumberPair {
+    first: number;
+    second: number;
+}
+
+// let pair: NumberPair = {first: 1, second: '2'}; // Type error
+
+interface StringPair {
+    first: string;
+    second: string;
+}
+
+// let pair: StringPair = {first: "1", second: '2'}; // Type error
+
+
+// interface with generic example
+
+interface Pair<T, U> {
+    first: T;
+    second: U;
+}
+
+const stringPair: Pair<string, string> = { first: "hmUUS", second: "hm" }
+
+const numberPair: Pair<number, number> = { first: 1, second: 100 }
